@@ -1,6 +1,14 @@
 <template>
   <div id="app">
-    <div v-for="post in top" :key="post.data.id" >{{ post.data }} <hr></div>
+    <div v-for="post in top" :key="post.data.id" >
+      Title: {{ post.data.title }} <br>
+      Author: {{ post.data.author }} <br>
+      Entry Date: {{ post.data.created }} <br>
+      Thumbail: {{ post.data.thumbnail }} <br>
+      Comments: {{ post.data.num_comments }} <br>
+       Readed: {{ post.data.visited }} <br>
+      <hr>
+      </div>
   </div>
 </template>
 
