@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <pre>{{ top }}</pre>
+    <div v-for="post in top" :key="post.data.id" >{{ post.data }} <hr></div>
   </div>
 </template>
 
@@ -10,13 +10,13 @@ export default {
   name: 'app',
   data () {
     return {
-      top: null
+      top: []
     }
   },
   mounted(){
     axios.get('./src/top.json')
-    .then(response => {
-      this.top=response
+    .then(({data}) => {
+      this.top=data.data.children
     })
   }
 }
