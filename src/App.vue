@@ -57,7 +57,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
   .menu{
     float: left;
     width: 50%;
