@@ -14,6 +14,7 @@
     </div>
     <footer>
       <button v-if="list.length" @click.stop="dismissAllPost" class="btn btn-primary-line">Dismiss All Post</button>
+      <button v-else @click.stop="getPosts" class="btn btn-primary-line">Get Top 50 Post</button>
     </footer>
   </div>
 </template>
