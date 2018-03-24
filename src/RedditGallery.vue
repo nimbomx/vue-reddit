@@ -1,19 +1,10 @@
 <template>
   <div class="detailCavas">
-      <div v-if="post" class="post-detail clearfix" >
-        <h2>{{ post.author }}</h2>
-        <div class="text-center img">
-          <a v-if="post.thumbnail" href="#" @click.stop="fullImage=true">
-            <img  :src="post.thumbnail"> <br><small class="imgFooter">click to view full image</small>
-          </a>
+      <div  class="post-detail clearfix" >
+        <h3>Gallery</h3>
+        <div v-for="item in gallery" :key="item.id" class="galleryImage">
+          <img :src="item.thumbnail" :alt="item.title">
         </div>
-        <div class="text-center fullImage img" v-if="fullImage">
-          <img  :src="post.url">
-          <br>
-          <button @click="saveInGallery(post)" class="btn btn-outside-secondary">Save in my Gallery</button>
-        </div>
-        <h4>{{ post.title }}</h4>
-
       </div>
   </div>
 </template>
@@ -26,7 +17,6 @@
             gallery:[]
           }
       },
-      props:['post'],
       mounted() {
         this.gallery= JSON.parse(localStorage.gallery)
         console.log(this.gallery)
@@ -41,7 +31,10 @@
 </script>
 
 <style lang="scss">
-
+  .galleryImage{
+    float: left;
+    margin: 20px;
+  }
   .post-detail{
     position: absolute;
     top:0px;

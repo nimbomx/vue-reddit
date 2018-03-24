@@ -6,8 +6,10 @@
     <main id="panel">
       <header>
           <button class="btn btn-secondary toggle-button">☰</button>
+          <button @click="gallery=true" class="btn btn-secondary">Gallery</button>
       </header>
-      <reddit-detail ref="postDetail" :post="selected"></reddit-detail>
+      <reddit-gallery v-if="gallery"></reddit-gallery>
+      <reddit-detail v-else ref="postDetail" :post="selected"></reddit-detail>
     </main>
   </Slideout>
 </template>
@@ -17,17 +19,20 @@
 import Slideout from 'vue-slideout'
 import RedditPostList from "./RedditPostList.vue";
 import RedditDetail from "./RedditDetail.vue";
+import RedditGallery from "./RedditGallery.vue";
 
 export default {
   name: 'app',
   components:{
     Slideout,
     RedditPostList,
-    RedditDetail
+    RedditDetail,
+    RedditGallery
   },
   data () {
     return {
-      selected:null
+      selected:null,
+      gallery:false
     }
   },
 
@@ -47,6 +52,7 @@ export default {
       this.$children[0].slideout.open()
     },
     postSelected(item){
+      this.gallery=false
       this.$refs.postDetail.fullImage=false
       this.selected=item
       this.preserveSelected()

@@ -30,6 +30,7 @@
 
   import RedditPost from "./RedditPost.vue";
 
+
   export default {
       data() {
           return {
