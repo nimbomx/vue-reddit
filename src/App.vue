@@ -34,6 +34,7 @@ export default {
   mounted(){
     this.handleResize()
     window.addEventListener('resize', this.handleResize)
+    if(localStorage.selected) this.restoreSelected()
   },
   methods:{
     handleResize(){
@@ -47,6 +48,13 @@ export default {
     },
     postSelected(item){
       this.selected=item
+      this.preserveSelected()
+    },
+    restoreSelected(){
+      this.selected = JSON.parse(localStorage.selected)
+    },
+    preserveSelected(){
+      localStorage.setItem("selected",JSON.stringify(this.selected))
     },
 
   }

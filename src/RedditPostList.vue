@@ -33,26 +33,51 @@
         RedditPost
       },
       mounted() {
-        this.getPosts()
+        if(localStorage.list)
+          this.restorePostList()
+        else
+          this.getPosts()
       },
       methods:{
         getPosts(){
           axios.get('https://www.reddit.com/r/all/top.json?limit=50')
           .then(({data}) => {
-            this.list=_.map(data.data.children,value => { return _.pick(value.data, 'title', 'id','author','created_utc','visited','thumbnail','num_comments','url') })
+            this.list=_.map(data.data.children,value => { return _.pick(value.data,
+              'title',
+              'id',
+              'author',
+              'created_utc',
+              'visited',
+              'thumbnail',
+              'num_comments',
+              'url'
+            ) })
+            this.preservePostList()
           })
+        },
+        restorePostList(){
+          this.list = JSON.parse(localStorage.list)
+        },
+        preservePostList(){
+          localStorage.setItem("list",JSON.stringify(this.list))
         },
         selectPost(post){
           post.visited = true;
           this.$emit('postSelected', post)
+          this.preservePostList()
         },
         dismissPost(post){
           this.$delete(this.list, post);
+          this.preservePostList()
         },
         dismissAllPost(){
           _.each(this.list,(el,key) => {
-            _.delay(() => { this.list.shift() }, (60*((key<=5) ? key : 5)))
+            _.delay(() => {
+              this.list.shift()
+              this.preservePostList()
+            }, (60*((key<=5) ? key : 5)))
           })
+
         }
       }
   }
