@@ -7,6 +7,7 @@
       {{ post.data.title }}
     </div>
     <br>
+    <button @click.stop="dismissPost(index)" class="btn btn-outline-light">Dismiss Post</button>
     <span class="float-right">{{post.data.num_comments}} comments</span>
   </div>
 </template>
@@ -18,7 +19,7 @@
 
           }
       },
-      props:['post'],
+      props:['post','index'],
       filters: {
         date: function (value) {
           if (!value) return ''
@@ -29,6 +30,9 @@
         selectPost(post){
           this.$emit('selectPost', post)
         },
+        dismissPost(post){
+          this.$emit('dismissPost', post)
+        }
 
       }
   }

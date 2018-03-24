@@ -1,7 +1,12 @@
 <template>
 <Slideout  menu="#menu" panel="#panel" padding="500" :toggleSelectors="['.toggle-button']">
       <nav id="menu">
-        <reddit-post v-for="post in top" :key="post.data.id" :post="post" v-on:selectPost="selectPost"></reddit-post>
+
+        <reddit-post v-for="(post, index) in list" :key="post.data.id" :index="index" :post="post"
+          v-on:selectPost="selectPost"
+          v-on:dismissPost="dismissPost"
+        ></reddit-post>
+
       </nav>
       <main id="panel">
         <header>
@@ -29,7 +34,7 @@ export default {
   },
   data () {
     return {
-      top: [],
+      list: [],
       selected:null
     }
   },
@@ -37,7 +42,7 @@ export default {
   mounted(){
     axios.get('https://www.reddit.com/r/all/top.json?limit=50')
     .then(({data}) => {
-      this.top=data.data.children
+      this.list=data.data.children
     })
     this.handleResize()
     window.addEventListener('resize', this.handleResize)
@@ -45,6 +50,9 @@ export default {
   methods:{
     selectPost(post){
       this.selected=post
+    },
+    dismissPost(post){
+      this.$delete(this.list, post);
     },
     handleResize(){
       (window.innerWidth < 1000) ? this.closeSidebar() : this.openSidebar()
