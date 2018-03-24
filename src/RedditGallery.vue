@@ -3,7 +3,9 @@
       <div  class="post-detail clearfix" >
         <h3>Gallery</h3>
         <div v-for="item in gallery" :key="item.id" class="galleryImage">
-          <img :src="item.thumbnail" :alt="item.title">
+          <a :href="item.url" target="_blank"><img :src="item.thumbnail" :alt="item.title"></a>
+          <br>
+          <a href="#" @click.stop="removeItem(item)">Remove from gallery</a>
         </div>
       </div>
   </div>
@@ -24,6 +26,10 @@
       methods:{
         saveInGallery(post){
           this.gallery.push(post)
+          localStorage.setItem("gallery",JSON.stringify(this.gallery))
+        },
+        removeItem(item){
+          this.gallery.splice(this.gallery.indexOf(item),1)
           localStorage.setItem("gallery",JSON.stringify(this.gallery))
         }
       }

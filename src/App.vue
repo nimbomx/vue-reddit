@@ -53,7 +53,7 @@ export default {
     },
     postSelected(item){
       this.gallery=false
-      this.$refs.postDetail.fullImage=false
+      if(this.$refs.postDetail) this.$refs.postDetail.fullImage=false
       this.selected=item
       this.preserveSelected()
     },
