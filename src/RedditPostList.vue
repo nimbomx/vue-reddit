@@ -43,6 +43,7 @@
           })
         },
         selectPost(post){
+          post.data.visited = true;
           this.$emit('postSelected', post)
         },
         dismissPost(post){
@@ -76,5 +77,16 @@ $footerh : 60px;
   }
 }
 
+.slide-enter-active, .slide-leave-active {
+  transition: all .6s;
+}
+.slide-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+  margin-left:-400px;
+  margin-right:400px;
+}
+.slide-enter /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
 
 </style>

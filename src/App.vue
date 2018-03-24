@@ -1,28 +1,20 @@
 <template>
-<Slideout  menu="#menu" panel="#panel" padding="500" :toggleSelectors="['.toggle-button']">
-      <nav id="menu">
-        <reddit-post-list v-on:postSelected="postSelected"></reddit-post-list>
-        <!--<reddit-post v-for="(post, index) in list" :key="post.data.id" :index="index" :post="post"
-          v-on:selectPost="selectPost"
-          v-on:dismissPost="dismissPost"
-        ></reddit-post>-->
-
-      </nav>
-      <main id="panel">
-        <header>
-            <button class="btn btn-secondary toggle-button">☰</button>
-        </header>
-        <reddit-detail :post="selected"></reddit-detail>
-      </main>
-    </Slideout>
-
+  <Slideout  menu="#menu" panel="#panel" padding="500" :toggleSelectors="['.toggle-button']">
+    <nav id="menu">
+      <reddit-post-list v-on:postSelected="postSelected"></reddit-post-list>
+    </nav>
+    <main id="panel">
+      <header>
+          <button class="btn btn-secondary toggle-button">☰</button>
+      </header>
+      <reddit-detail :post="selected"></reddit-detail>
+    </main>
+  </Slideout>
 </template>
 
 <script>
-let axios = require('axios')
 
 import Slideout from 'vue-slideout'
-import RedditPost from "./RedditPost.vue";
 import RedditPostList from "./RedditPostList.vue";
 import RedditDetail from "./RedditDetail.vue";
 
@@ -30,27 +22,20 @@ export default {
   name: 'app',
   components:{
     Slideout,
-    RedditPost,
     RedditPostList,
     RedditDetail
   },
   data () {
     return {
-      list: [],
       selected:null
     }
   },
 
   mounted(){
-    axios.get('https://www.reddit.com/r/all/top.json?limit=50')
-    .then(({data}) => {
-      this.list=data.data.children
-    })
     this.handleResize()
     window.addEventListener('resize', this.handleResize)
   },
   methods:{
-
     handleResize(){
       (window.innerWidth < 1000) ? this.closeSidebar() : this.openSidebar()
     },
@@ -84,7 +69,6 @@ export default {
     bottom: 0;
     width: $sidebarW;
     height: 100vh;
-    //overflow-y: scroll;
     overflow: hidden;
     -webkit-overflow-scrolling: touch;
     z-index: 0;
