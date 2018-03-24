@@ -1,5 +1,5 @@
 <template>
-<Slideout  menu="#menu" panel="#panel" padding="300" :toggleSelectors="['.toggle-button']">
+<Slideout  menu="#menu" panel="#panel" padding="500" :toggleSelectors="['.toggle-button']">
       <nav id="menu">
         <div v-for="post in top" :key="post.data.id" @click="selectPost(post)">
         Title: {{ post.data.title }} <br>
@@ -54,11 +54,21 @@ export default {
     .then(({data}) => {
       this.top=data.data.children
     })
+    window.addEventListener('resize', this.handleResize)
   },
   methods:{
     selectPost(post){
       this.selected=post
-    }
+    },
+    handleResize(){
+      (window.innerWidth < 1000) ? this.closeSidebar() : this.openSidebar()
+    },
+    closeSidebar(){
+      this.$children[0].slideout.close()
+    },
+    openSidebar(){
+      this.$children[0].slideout.open()
+    },
 
   }
 }
@@ -66,17 +76,19 @@ export default {
 
 <style lang="scss">
 
+  $sidebarW: 500px;
   body {
     width: 100%;
     height: 100%;
     margin: 0;
+    background: #ccc;
   }
 
   .slideout-menu {
     position: fixed;
     top: 0;
     bottom: 0;
-    width: 300px;
+    width: $sidebarW;
     height: 100vh;
     //overflow-y: scroll;
     overflow: hidden;
@@ -110,9 +122,9 @@ export default {
   .moving{
     box-shadow: 0px 0px 20px rgba(0,0,0,.5);
   }
-.toggle-button{
-  margin: 10px;
-}
+  .toggle-button{
+    margin: 10px;
+  }
   .slideout-open,
   .slideout-open body,
   .slideout-open {
@@ -120,7 +132,7 @@ export default {
   }
   .slideout-open{
     .slideout-panel {
-      margin-right: 300px;
+      margin-right: $sidebarW;
     }
   }
   .slideout-open .slideout-menu {
