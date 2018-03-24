@@ -29,6 +29,7 @@
     "moment": "^2.21.0",
     "node-sass": "^4.7.2",
     "sass-loader": "^6.0.7",
+    "underscore": "^1.8.3",
     "vue-loader": "^13.0.5",
     "vue-slideout": "^1.7.0",
     "vue-template-compiler": "^2.4.4",

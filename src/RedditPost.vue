@@ -1,14 +1,14 @@
 <template>
   <div  class="post clearfix" @click="selectPost(post)">
-    <transition name="fade"><div v-if="!post.data.visited" class="unreaded"></div> </transition>
-    <h4>{{ post.data.author }} <small>{{ post.data.created_utc | date}}</small></h4>
+    <transition name="fade"><div v-if="!post.visited" class="unreaded"></div> </transition>
+    <h4>{{ post.author }} <small>{{ post.created_utc | date}}</small></h4>
     <div class="clearfix">
-      <img v-if="post.data.thumbnail && post.data.thumbnail != 'default' && post.data.thumbnail != 'self'" class="thumb"  :src="post.data.thumbnail">
-      {{ post.data.title }}
+      <img v-if="post.thumbnail && post.thumbnail != 'default' && post.thumbnail != 'self'" class="thumb"  :src="post.thumbnail">
+      {{ post.title }}
     </div>
     <br>
     <button @click.stop="dismissPost(index)" class="btn btn-outline-light">Dismiss Post</button>
-    <span class="float-right">{{post.data.num_comments}} comments</span>
+    <span class="float-right">{{post.num_comments}} comments</span>
   </div>
 </template>
 

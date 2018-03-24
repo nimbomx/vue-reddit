@@ -4,7 +4,7 @@
 
      <transition-group name="slide">
 
-       <reddit-post v-for="(post, index) in list" :key="post.data.id" :index="index" :post="post"
+       <reddit-post v-for="(post, index) in list" :key="post.id" :index="index" :post="post"
           v-on:selectPost="selectPost"
           v-on:dismissPost="dismissPost"
         ></reddit-post>
@@ -39,18 +39,20 @@
         getPosts(){
           axios.get('https://www.reddit.com/r/all/top.json?limit=50')
           .then(({data}) => {
-            this.list=data.data.children
+            this.list=_.map(data.data.children,value => { return _.pick(value.data, 'title', 'id','author','created_utc','visited','thumbnail','num_comments','url') })
           })
         },
         selectPost(post){
-          post.data.visited = true;
+          post.visited = true;
           this.$emit('postSelected', post)
         },
         dismissPost(post){
           this.$delete(this.list, post);
         },
         dismissAllPost(){
-          this.list = [];
+          _.each(this.list,(el,key) => {
+            _.delay(() => { this.list.shift() }, (60*((key<=5) ? key : 5)))
+          })
         }
       }
   }
