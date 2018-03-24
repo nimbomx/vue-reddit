@@ -1,16 +1,7 @@
 <template>
 <Slideout  menu="#menu" panel="#panel" padding="500" :toggleSelectors="['.toggle-button']">
       <nav id="menu">
-        <div v-for="post in top" :key="post.data.id" @click="selectPost(post)">
-        Title: {{ post.data.title }} <br>
-        Author: {{ post.data.author }} <br>
-        Entry Date: {{ post.data.created_utc | date}} <br>
-        Thumbail: {{ post.data.thumbnail }} <br>
-        Comments: {{ post.data.num_comments }} <br>
-        Readed: {{ post.data.visited }} <br>
-
-        <hr>
-      </div>
+        <reddit-post v-for="post in top" :key="post.data.id" :post="post" v-on:selectPost="selectPost"></reddit-post>
       </nav>
       <main id="panel">
         <header>
@@ -30,12 +21,13 @@
 let axios = require('axios')
 
 import Slideout from 'vue-slideout'
+import RedditPost from "./RedditPost.vue";
 
 export default {
   name: 'app',
   components:{
     Slideout,
-
+    RedditPost
   },
   data () {
     return {
@@ -43,12 +35,7 @@ export default {
       selected:null
     }
   },
-  filters: {
-    date: function (value) {
-      if (!value) return ''
-      return moment.unix(value).fromNow()
-    }
-  },
+
   mounted(){
     axios.get('https://www.reddit.com/r/all/top.json?limit=50')
     .then(({data}) => {
