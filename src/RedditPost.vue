@@ -7,7 +7,7 @@
       {{ post.title }}
     </div>
     <br>
-    <button @click.stop="dismissPost(index)" class="btn btn-outline-light">Dismiss Post</button>
+    <button @click.stop="dismissPost(post)" class="btn btn-outline-light">Dismiss Post</button>
     <span class="float-right">{{post.num_comments}} comments</span>
   </div>
 </template>

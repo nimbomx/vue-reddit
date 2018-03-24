@@ -4,7 +4,7 @@
 
      <transition-group name="slide">
 
-       <reddit-post v-for="(post, index) in list" :key="post.id" :index="index" :post="post"
+       <reddit-post v-for="(post, index) in listPaginated" :key="post.id" :index="index" :post="post"
           v-on:selectPost="selectPost"
           v-on:dismissPost="dismissPost"
         ></reddit-post>
@@ -13,8 +13,14 @@
 
     </div>
     <footer>
-      <button v-if="list.length" @click.stop="dismissAllPost" class="btn btn-primary-line">Dismiss All Post</button>
-      <button v-else @click.stop="getPosts" class="btn btn-primary-line">Get Top 50 Post</button>
+      <div v-if="list.length">
+        <button :disabled="page<=1" @click.stop="page--" class="btn btn-outline-secondary"><</button>
+         &nbsp; {{ page }} of {{ pages }}  &nbsp;
+        <button :disabled="page>=pages" @click.stop="page++" class="btn btn-outline-secondary">></button>
+        <button  @click.stop="dismissAllPost" class="btn btn-outline-secondary float-right">Dismiss All {{ num_posts }} Post</button>
+      </div>
+
+      <button v-else @click.stop="getPosts" class="btn btn-outline-secondary w100">Get Top 50 Post</button>
     </footer>
   </div>
 </template>
@@ -27,7 +33,9 @@
   export default {
       data() {
           return {
-            list:[]
+            list:[],
+            perpage:10,
+            page:1
           }
       },
       components: {
@@ -38,6 +46,17 @@
           this.restorePostList()
         else
           this.getPosts()
+      },
+      computed: {
+        listPaginated: function () {
+          return  this.list.slice((this.page-1)*this.perpage,((this.page-1)*this.perpage)+this.perpage)
+        },
+        pages: function () {
+          return  Math.ceil(this.list.length/this.perpage)
+        },
+        num_posts: function () {
+          return  this.list.length
+        }
       },
       methods:{
         getPosts(){
@@ -68,7 +87,8 @@
           this.preservePostList()
         },
         dismissPost(post){
-          this.$delete(this.list, post);
+          //this.$delete(this.list, post);
+          this.list.splice(this.list.indexOf(post),1)
           this.preservePostList()
         },
         dismissAllPost(){
@@ -99,7 +119,7 @@ $footerh : 60px;
     position: absolute;
     padding: 10px 20px;
     width: 100%;
-    .btn{
+    .w100{
       width: 100%;
     }
   }
