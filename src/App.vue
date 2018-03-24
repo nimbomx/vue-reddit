@@ -7,7 +7,7 @@
       <header>
           <button class="btn btn-secondary toggle-button">☰</button>
       </header>
-      <reddit-detail :post="selected"></reddit-detail>
+      <reddit-detail ref="postDetail" :post="selected"></reddit-detail>
     </main>
   </Slideout>
 </template>
@@ -47,10 +47,12 @@ export default {
       this.$children[0].slideout.open()
     },
     postSelected(item){
+      this.$refs.postDetail.fullImage=false
       this.selected=item
       this.preserveSelected()
     },
     restoreSelected(){
+      this.$refs.postDetail.fullImage=false
       this.selected = JSON.parse(localStorage.selected)
     },
     preserveSelected(){
