@@ -14,9 +14,9 @@
     </div>
     <footer>
       <div v-if="list.length">
-        <button :disabled="page<=1" @click.stop="page--" class="btn btn-outline-secondary"><</button>
+        <button :disabled="page<=1" @click.stop="prevPage" class="btn btn-outline-secondary"><</button>
          &nbsp; {{ page }} of {{ pages }}  &nbsp;
-        <button :disabled="page>=pages" @click.stop="page++" class="btn btn-outline-secondary">></button>
+        <button :disabled="page>=pages" @click.stop="nextPage" class="btn btn-outline-secondary">></button>
         <button  @click.stop="dismissAllPost" class="btn btn-outline-secondary float-right">Dismiss All {{ num_posts }} Post</button>
       </div>
 
@@ -73,10 +73,12 @@
               'url'
             ) })
             this.preservePostList()
+            this.goPage(1)
           })
         },
         restorePostList(){
           this.list = JSON.parse(localStorage.list)
+          this.restorePage()
         },
         preservePostList(){
           localStorage.setItem("list",JSON.stringify(this.list))
@@ -87,9 +89,26 @@
           this.preservePostList()
         },
         dismissPost(post){
-          //this.$delete(this.list, post);
           this.list.splice(this.list.indexOf(post),1)
           this.preservePostList()
+        },
+        prevPage(){
+          this.page--
+          this.preservePage()
+        },
+        nextPage(){
+          this.page++
+          this.preservePage()
+        },
+        goPage(page){
+          this.page=page
+          this.preservePage()
+        },
+        preservePage(){
+          localStorage.setItem("page",this.page)
+        },
+        restorePage(){
+          this.page = localStorage.page || 1
         },
         dismissAllPost(){
           _.each(this.list,(el,key) => {
