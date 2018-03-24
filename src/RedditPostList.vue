@@ -35,6 +35,7 @@
       data() {
           return {
             list:[],
+
             perpage:10,
             page:1
           }
@@ -60,6 +61,7 @@
         }
       },
       methods:{
+
         getPosts(){
           axios.get('https://www.reddit.com/r/all/top.json?limit=50')
           .then(({data}) => {

@@ -2,8 +2,8 @@
   <div  class="post clearfix" @click="selectPost(post)">
     <transition name="fade"><div v-if="!post.visited" class="unreaded"></div> </transition>
     <h4>{{ post.author }} <small>{{ post.created_utc | date}}</small></h4>
-    <div class="clearfix">
-      <img v-if="post.thumbnail && post.thumbnail != 'default' && post.thumbnail != 'self'" class="thumb"  :src="post.thumbnail">
+    <div  class="clearfix">
+      <img v-if="isImage(post)" class="thumb"  :src="post.thumbnail">
       {{ post.title }}
     </div>
     <br>
@@ -16,7 +16,7 @@
   export default {
       data() {
           return {
-
+            formats:['jpg','png'],
           }
       },
       props:['post','index'],
@@ -27,6 +27,10 @@
         }
       },
       methods:{
+        isImage(post){
+          let a = this.formats.indexOf(post.thumbnail.split('.').pop());
+          return (a >= 0);
+        },
         selectPost(post){
           this.$emit('selectPost', post)
         },
