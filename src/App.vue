@@ -7,11 +7,7 @@
         <header>
             <button class="btn btn-secondary toggle-button">☰</button>
         </header>
-        <div v-if="selected">
-        <h4>{{ selected.data.author }}</h4>
-        <img :src="selected.data.thumbnail">
-        <pre>{{ selected }}</pre>
-      </div>
+        <reddit-detail :post="selected"></reddit-detail>
       </main>
     </Slideout>
 
@@ -22,12 +18,14 @@ let axios = require('axios')
 
 import Slideout from 'vue-slideout'
 import RedditPost from "./RedditPost.vue";
+import RedditDetail from "./RedditDetail.vue";
 
 export default {
   name: 'app',
   components:{
     Slideout,
-    RedditPost
+    RedditPost,
+    RedditDetail
   },
   data () {
     return {
@@ -41,6 +39,7 @@ export default {
     .then(({data}) => {
       this.top=data.data.children
     })
+    this.handleResize()
     window.addEventListener('resize', this.handleResize)
   },
   methods:{

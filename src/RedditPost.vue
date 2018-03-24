@@ -35,5 +35,28 @@
 </script>
 
 <style lang="scss">
+  .post{
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    padding: 10px 20px;
+    h4{
+      margin-left:20px;
+    }
+  }
 
+  .thumb{
+    width: 100px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    float: left;
+  }
+  .unreaded{
+    background: blue;
+    width: 14px;
+    height: 14px;
+    position: absolute;
+    border-radius: 20px;
+    margin: 10px 0px;
+  }
 </style>
