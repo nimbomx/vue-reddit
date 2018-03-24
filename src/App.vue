@@ -1,11 +1,11 @@
 <template>
 <Slideout  menu="#menu" panel="#panel" padding="500" :toggleSelectors="['.toggle-button']">
       <nav id="menu">
-
-        <reddit-post v-for="(post, index) in list" :key="post.data.id" :index="index" :post="post"
+        <reddit-post-list v-on:postSelected="postSelected"></reddit-post-list>
+        <!--<reddit-post v-for="(post, index) in list" :key="post.data.id" :index="index" :post="post"
           v-on:selectPost="selectPost"
           v-on:dismissPost="dismissPost"
-        ></reddit-post>
+        ></reddit-post>-->
 
       </nav>
       <main id="panel">
@@ -23,6 +23,7 @@ let axios = require('axios')
 
 import Slideout from 'vue-slideout'
 import RedditPost from "./RedditPost.vue";
+import RedditPostList from "./RedditPostList.vue";
 import RedditDetail from "./RedditDetail.vue";
 
 export default {
@@ -30,6 +31,7 @@ export default {
   components:{
     Slideout,
     RedditPost,
+    RedditPostList,
     RedditDetail
   },
   data () {
@@ -48,12 +50,7 @@ export default {
     window.addEventListener('resize', this.handleResize)
   },
   methods:{
-    selectPost(post){
-      this.selected=post
-    },
-    dismissPost(post){
-      this.$delete(this.list, post);
-    },
+
     handleResize(){
       (window.innerWidth < 1000) ? this.closeSidebar() : this.openSidebar()
     },
@@ -62,6 +59,9 @@ export default {
     },
     openSidebar(){
       this.$children[0].slideout.open()
+    },
+    postSelected(item){
+      this.selected=item
     },
 
   }
